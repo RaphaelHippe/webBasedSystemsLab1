@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  table
+    tr
+      th lat
+      th long
+      th name
+      th hash
+    each loc, i in locations
+      tr
+        td= loc.lat
+        td= loc.long
+        td= loc.name
+        td= loc.hash
+  form(name="discoverySearch" onSubmit="javascript:searchLocation()")
+    label Search
+    input(type="text" name="search")
+    button(type='submit') Submit
+  script(type='text/javascript').
+    function searchLocation(){
+      alert("suche");
+    }

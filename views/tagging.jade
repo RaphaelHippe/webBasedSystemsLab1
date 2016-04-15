@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(name='taggingForm' onSubmit='javascript:validate()')
+    label Latitude
+    input(type='number' name='latitude' disabled='true')
+    br
+    label longitude
+    input(type='number' name='longitude' disabled='true')
+    br
+    label name
+    input(type='text' name='name')
+    br
+    label hashtag
+    input(type='text' name='hashtag')
+    br
+    button(type='submit') Submit
+    script(type='text/javascript').
+      function validate(){
+        var name = document.forms["taggingForm"]["name"].value;
+         if (!/^[a-z0-9]+$/.test(name)) {
+             alert("Name must be filled out");
+             return false;
+         }
+        var hashtag = document.forms["taggingForm"]["hashtag"].value;
+         if (hashtag == null || hashtag == "") {
+             alert("Hashtag must be filled out");
+             return false;
+         }
+      }
+      function getLocation() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+              alert("Geo Coords didnt work");
+          }
+      }
+      function showPosition(position) {
+        document.forms["taggingForm"]["longitude"].value = position.coords.longitude;
+        document.forms["taggingForm"]["latitude"].value = position.coords.latitude;
+      }
+      getLocation();
