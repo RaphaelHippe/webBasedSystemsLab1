@@ -32,4 +32,21 @@ var options = {
  res.render('discovery', options);
 });
 
+router.post('/discovery/search', function (req, res, next) {
+  var options = {
+    title: 'Geo Location Discovery: Searched by:' + req.body.search,
+    locations: myTagging.search(req.body.search)
+  }
+  res.render('discovery', options);
+});
+
+router.delete('/discovery/delete', function (req, res, next) {
+  var options = {
+    title: 'Geo Location Discovery: deleted by:' + req.body.index,
+    locations: myTagging.deleteByIndex(req.body.index)
+  }
+  res.render('discovery', options);
+});
+
+
 module.exports = router;

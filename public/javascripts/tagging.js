@@ -20,6 +20,32 @@ var addTag = function (lat, long, name, hash) {
   data.push({lat: lat, long: long, name: name, hash: hash});
 }
 
-exports.getData = getData;
+var deleteByIndex = function (index) {
+  data.splice(index, 1);
+  return data;
+}
 
+var deleteByHash = function (hash) {
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].hash === hash) {
+      data.splice(i, 1);
+    }
+  }
+  return data;
+}
+
+var search = function (input) {
+  var result = [];
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].name.search(input) !== -1 || data[i].hash.search(input) !== -1) {
+      result.push(data[i]);
+    }
+  }
+  return result;
+}
+
+exports.getData = getData;
 exports.addTag = addTag;
+exports.search = search;
+exports.deleteByHash = deleteByHash;
+exports.deleteByIndex = deleteByIndex;
