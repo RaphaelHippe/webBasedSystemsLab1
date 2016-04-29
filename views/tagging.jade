@@ -3,18 +3,18 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  form(name='taggingForm' onSubmit='javascript:validate()')
+  form(name='taggingForm' onSubmit='return validate()' action='/geodata', method='post')
     label Latitude
-    input(type='number' name='latitude' disabled='true')
+    input(type='number' name='latitude' readonly).latitudeInput
     br
     label longitude
-    input(type='number' name='longitude' disabled='true')
+    input(type='number' name='longitude' readonly).longitudeInput
     br
     label name
-    input(type='text' name='name')
+    input(type='text' name='name').nameInput
     br
     label hashtag
-    input(type='text' name='hashtag')
+    input(type='text' name='hashtag').hastagInput
     br
     button(type='submit') Submit
     script(type='text/javascript').
