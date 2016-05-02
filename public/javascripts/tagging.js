@@ -21,7 +21,9 @@ var addTag = function (lat, long, name, hash) {
 }
 
 var deleteByIndex = function (index) {
+  console.log('d1', data);
   data.splice(index, 1);
+  console.log('d2', data);
   return data;
 }
 

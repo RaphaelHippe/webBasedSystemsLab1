@@ -42,9 +42,10 @@ router.post('/discovery/search', function (req, res, next) {
 
 router.delete('/discovery/delete', function (req, res, next) {
   var options = {
-    title: 'Geo Location Discovery: deleted by:' + req.body.index,
+    title: 'Geo Location Discovery: deleted Element:' + req.body.index,
     locations: myTagging.deleteByIndex(req.body.index)
   }
+  console.log('d3', options.locations);
   res.render('discovery', options);
 });
 
