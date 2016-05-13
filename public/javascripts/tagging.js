@@ -1,33 +1,30 @@
 
-var data = [ {
- lat : 49.013790,
- long : 8.404435,
- name : 'castle',
- hash : '#sight'
- }, {
- lat : 49.013790,
- long : 8.390071,
- name : 'iwi',
- hash : '#edu'
- }
-];
+var data = [];
 
-var getData = function () {
+var setData = function (input) {
+  data = input;
+  for (var i = 0; i < data.length; i++) {
+    data[i] = JSON.parse(data[i]);
+  }
+}
+
+var getData = function() {
+
   return data;
 }
 
-var addTag = function (lat, long, name, hash) {
-  data.push({lat: lat, long: long, name: name, hash: hash});
+var addTag = function(obj) {
+  data.push(obj);
 }
 
-var deleteByIndex = function (index) {
+var deleteByIndex = function(index) {
   console.log('d1', data);
   data.splice(index, 1);
   console.log('d2', data);
   return data;
 }
 
-var deleteByHash = function (hash) {
+var deleteByHash = function(hash) {
   for (var i = 0; i < data.length; i++) {
     if (data[i].hash === hash) {
       data.splice(i, 1);
@@ -36,7 +33,7 @@ var deleteByHash = function (hash) {
   return data;
 }
 
-var search = function (input) {
+var search = function(input) {
   var result = [];
   for (var i = 0; i < data.length; i++) {
     if (data[i].name.search(input) !== -1 || data[i].hash.search(input) !== -1) {
@@ -48,6 +45,7 @@ var search = function (input) {
 
 exports.getData = getData;
 exports.addTag = addTag;
+exports.setData = setData;
 exports.search = search;
 exports.deleteByHash = deleteByHash;
 exports.deleteByIndex = deleteByIndex;
