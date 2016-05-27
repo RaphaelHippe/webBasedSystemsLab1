@@ -13,29 +13,35 @@ var save = function(obj, cb) {
       client.set(obj.name, JSON.stringify(obj), cb);
     }
   });
-}
+};
 
 var update = function(name, obj, cb) {
+  console.log('testestsetest');
   client.exists(obj.name, function(err, result) {
     if (result === 0) {
+      console.log('err1');
       cb('doesnt exist', null);
     } else {
-      client.rename(name, obj.name, function(err, str) {
-
+      client.set(name, JSON.stringify(obj), function(err, str) {
+        if (err) {
+          console.log('err2');
+          cb(true);
+        }
+        cb(null, str);
       });
     }
   });
-}
+};
 
 var del = function(name, cb) {
-  client.exists(obj.name, function(err, result) {
+  client.exists(name, function(err, result) {
     if (result === 0) {
       cb('doesnt exist', null);
     } else {
       client.get(name, cb);
     }
   });
-}
+};
 
 var get = function(name, cb) {
   client.exists(name, function(err, result) {
@@ -45,7 +51,7 @@ var get = function(name, cb) {
       client.get(name, cb);
     }
   });
-}
+};
 
 var query = function(cb) {
   client.keys('*', function(err, keys) {
@@ -53,7 +59,7 @@ var query = function(cb) {
       cb(null, data);
     });
   });
-}
+};
 
 
 

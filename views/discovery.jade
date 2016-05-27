@@ -16,7 +16,7 @@ block content
         td= loc.long
         td= loc.name
         td= loc.hash
-        td: button(onclick='deleteByIndex(#{i})') X
+        td: button(onclick='deleteByName(#{JSON.stringify(loc.name)})') X
   form(name="discoverySearch" onSubmit='return validate()' action='/discovery/search', method='post')
     label Search
     input(type="text" name="search")
@@ -29,8 +29,8 @@ block content
           return false;
       }
     }
-    function deleteByIndex(index){
-      var myData = {index: index}
+    function deleteByName(name){
+      var myData = {name: name}
       // construct an HTTP request
       var xhr = new XMLHttpRequest();
       xhr.open('DELETE', '/discovery/delete', true);
