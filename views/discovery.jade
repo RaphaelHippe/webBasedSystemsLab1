@@ -30,11 +30,13 @@ block content
       }
     }
     function deleteByName(name){
-      var myData = {name: name}
       // construct an HTTP request
+      console.log('abc', name);
       var xhr = new XMLHttpRequest();
-      xhr.open('DELETE', '/geotags/' + name, true);
+      var uri = '/geotags/' + name;
+      console.log('uri', uri);
+      xhr.open('DELETE', uri, true);
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
       // send the collected data as JSON
-      xhr.send(JSON.stringify(myData));
+      xhr.send();
     }

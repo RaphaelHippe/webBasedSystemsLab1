@@ -17,18 +17,43 @@ var save = function(obj, cb) {
 
 var update = function(name, obj, cb) {
   console.log('testestsetest');
-  client.exists(obj.name, function(err, result) {
+  client.exists(name, function(err, result) {
     if (result === 0) {
       console.log('err1');
       cb('doesnt exist', null);
     } else {
-      client.set(name, JSON.stringify(obj), function(err, str) {
-        if (err) {
-          console.log('err2');
-          cb(true);
-        }
-        cb(null, str);
-      });
+      if (obj.name === name) {
+        client.set(name, JSON.stringify(obj), function(err, str) {
+          if (err) {
+            console.log('err2');
+            cb(true);
+          } else {
+            cb(null, str);
+          }
+        });
+      } else {
+        client.exists(obj.name, function (err, result) {
+          if (err) {
+            console.log('error');
+            cb(true);
+          } else {
+            if (result === 1) {
+              console.log('409');
+              cb(409);
+            } else {
+              client.set(name, JSON.stringify(obj), function(err, str) {
+                if (err) {
+                  console.log('err2');
+                  cb(true);
+                } else {
+                  cb(null, str);
+                }
+              });
+              client.rename(name, obj.name, cb);
+            }
+          }
+        });
+      }
     }
   });
 };
@@ -56,13 +81,14 @@ var get = function(name, cb) {
 var query = function(cb) {
   client.keys('*', function(err, keys) {
     if (err) {
-      cb(true);
+      cb(500);
     }
     client.mget(keys, function(err, data) {
       if (err) {
-        cb(true);
+        cb(404);
+      } else {
+        cb(null, data);
       }
-      cb(null, data);
     });
   });
 };
