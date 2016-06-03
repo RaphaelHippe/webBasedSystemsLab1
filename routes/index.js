@@ -26,7 +26,7 @@ router.get('/tagging', function(req, res, next) {
 // geotags
 // POST
 // GET
-router.post('/geotags', function (req, res, next) {
+router.post('/geotags', function(req, res, next) {
   var myObj = new myLocation(req.body.latitude, req.body.longitude, req.body.name, req.body.hashtag);
   redisservice.save(myObj, function(err, index) {
     redisservice.query(function(err, data) {
@@ -41,7 +41,7 @@ router.post('/geotags', function (req, res, next) {
     });
   });
 });
-router.get('/geotags', function (req, res, next) {
+router.get('/geotags', function(req, res, next) {
   redisservice.query(function(err, data) {
     var options = {
       title: 'Geo Location Discovery',
@@ -59,24 +59,20 @@ router.get('/geotags', function (req, res, next) {
 // GET
 // PUT
 // DELETE
-router.get('/geotags/:name', function (req, res, next) {
-  redisservice.update(req.params.name, req.body, function (err, data) {
+router.get('/geotags/:name', function(req, res, next) {
+  redisservice.get(req.params.name, function(err, data) {
     if (err) {
       res.status(404).end();
     }
-    redisservice.query(function(err, data) {
-      var options = {
-        title: 'Geo Location Discovery',
-        locations: []
-      };
-      for (var i = 0; i < data.length; i++) {
-        options.locations.push(JSON.parse(data[i]));
-      }
-      res.render('discovery', options);
-    });
+    var options = {
+      title: 'Geo Location Discovery',
+      locations: []
+    };
+    options.locations.push(JSON.parse(data));
+    res.render('discovery', options);
   });
 });
-router.put('/geotags/:name', function (req, res, next) {
+router.put('/geotags/:name', function(req, res, next) {
   redisservice.update(req.params.name, req.body, function(err, data) {
     if (err) {
       res.status(404).end();
@@ -93,7 +89,7 @@ router.put('/geotags/:name', function (req, res, next) {
     });
   });
 });
-router.delete('/geotags/:name', function (req, res, next) {
+router.delete('/geotags/:name', function(req, res, next) {
   redisservice.del(req.params.name, function(err, amount) {
     redisservice.query(function(err, data) {
       var options = {
