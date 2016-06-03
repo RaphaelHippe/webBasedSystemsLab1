@@ -38,7 +38,7 @@ var del = function(name, cb) {
     if (result === 0) {
       cb('doesnt exist', null);
     } else {
-      client.get(name, cb);
+      client.del(name, cb);
     }
   });
 };
@@ -55,7 +55,13 @@ var get = function(name, cb) {
 
 var query = function(cb) {
   client.keys('*', function(err, keys) {
+    if (err) {
+      cb(true);
+    }
     client.mget(keys, function(err, data) {
+      if (err) {
+        cb(true);
+      }
       cb(null, data);
     });
   });

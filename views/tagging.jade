@@ -3,7 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  form(name='taggingForm' onSubmit='return validate()' action='/geodata', method='post')
+  form(name='taggingForm' onSubmit='return validate()' action='/geotags/', method='post')
     label Latitude
     input(type='number' name='latitude' readonly).latitudeInput
     br
