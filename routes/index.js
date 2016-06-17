@@ -5,12 +5,18 @@ var myLocation = require('./../public/javascripts/location.js');
 var redisservice = require('./../public/javascripts/redis.js');
 
 router.post('/geotags/search', function(req, res, next) {
-  redisservice.search(req.body.search, function(err, data) {
-    var myLocation;
+  redisservice.search(req.body.search, function(err, data, decider) {
+    var myLocation = [];
     if (err === '404') {
       myLocation = [];
     } else {
-      myLocation = [JSON.parse(data)];
+      if (decider === 0) {
+        for (var i = 0; i < data.length; i++) {
+          myLocation.push(JSON.parse(data[i]));
+        }
+      } else {
+        myLocation = [JSON.parse(data)];
+      }
     }
     var options = {
       title: 'Geo Location Discovery',

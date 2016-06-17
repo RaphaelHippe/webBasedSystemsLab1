@@ -97,14 +97,14 @@ var search = function (input, cb) {
   if (input.charAt(0) === '#') {
     // hashtag
     query(function (err, data) {
-      var myData = null;
+      var myData = [];
       for (var i = 0; i < data.length; i++) {
         if (JSON.parse(data[i]).hash === input) {
-          myData = data[i];
+          myData.push(data[i]);
         }
       }
-      if (myData) {
-        cb(null, myData);
+      if (myData.length) {
+        cb(null, myData, 0);
       } else {
         cb('404');
       }
