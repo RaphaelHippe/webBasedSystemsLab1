@@ -3,6 +3,7 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  button(onclick='deleteAll()') delete all
   table
     tr
       th lat
@@ -39,4 +40,17 @@ block content
       xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
       // send the collected data as JSON
       xhr.send();
+
+      xhr.onreadystatechange = function() {
+          console.log('testsetsetset');
+          if (xhr.readyState == XMLHttpRequest.DONE) {
+              locations = JSON.parse(xhr.responseText);
+              console.log('raphi', locations, xhr.responseText);
+          }
+      }
+
+    }
+    function deleteAll(){
+      locations = [];
+      console.log('del', locations);
     }

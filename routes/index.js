@@ -5,10 +5,16 @@ var myLocation = require('./../public/javascripts/location.js');
 var redisservice = require('./../public/javascripts/redis.js');
 
 router.post('/geotags/search', function(req, res, next) {
-  redisservice.get(req.body.search, function(err, data) {
+  redisservice.search(req.body.search, function(err, data) {
+    var myLocation;
+    if (err === '404') {
+      myLocation = [];
+    } else {
+      myLocation = [JSON.parse(data)];
+    }
     var options = {
       title: 'Geo Location Discovery',
-      locations: [JSON.parse(data)]
+      locations: myLocation
     };
     res.render('discovery', options);
   });
@@ -96,14 +102,11 @@ router.put('/geotags/:name', function(req, res, next) {
 router.delete('/geotags/:name', function(req, res, next) {
   redisservice.del(req.params.name, function(err, amount) {
     redisservice.query(function(err, data) {
-      var options = {
-        title: 'Geo Location Discovery',
-        locations: []
-      };
+      var myData = [];
       for (var i = 0; i < data.length; i++) {
-        options.locations.push(JSON.parse(data[i]));
+        myData.push(JSON.parse(data[i]));
       }
-      res.render('discovery', options);
+      res.send(myData);
     });
   });
 });

@@ -93,8 +93,31 @@ var query = function(cb) {
   });
 };
 
+var search = function (input, cb) {
+  if (input.charAt(0) === '#') {
+    // hashtag
+    query(function (err, data) {
+      var myData = null;
+      for (var i = 0; i < data.length; i++) {
+        if (JSON.parse(data[i]).hash === input) {
+          myData = data[i];
+        }
+      }
+      if (myData) {
+        cb(null, myData);
+      } else {
+        cb('404');
+      }
+    });
+  } else {
+    // namesearch
+    get(input, cb);
+  }
+
+};
 
 
+exports.search = search;
 exports.save = save;
 exports.update = update;
 exports.del = del;
