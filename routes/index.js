@@ -182,6 +182,23 @@ router.delete('/api/geotags/:name', function(req, res, next) {
   });
 });
 
+router.post('/api/geotags/search', function(req, res, next) {
+  redisservice.search(req.body.search, function(err, data, decider) {
+    var myLocation = [];
+    if (err === '404') {
+      myLocation = [];
+    } else {
+      if (decider === 0) {
+        for (var i = 0; i < data.length; i++) {
+          myLocation.push(JSON.parse(data[i]));
+        }
+      } else {
+        myLocation = [JSON.parse(data)];
+      }
+    }
+    res.send(myLocation);
+  });
+});
 
 
 
